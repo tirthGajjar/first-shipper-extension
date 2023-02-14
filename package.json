@@ -11,12 +11,14 @@
     "package": "plasmo package"
   },
   "dependencies": {
+    "@testing-library/dom": "^8.20.0",
     "plasmo": "0.64.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@plasmohq/prettier-plugin-sort-imports": "3.6.1",
+    "@testing-library/react": "^13.4.0",
     "@types/chrome": "0.0.210",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
