@@ -1,18 +1,22 @@
 {
-  "name": "firstshipper-extension",
-  "displayName": "Know the better rates for your shipments",
+  "name": "cover-ancient-porcupine",
+  "displayName": "Cover ancient porcupine",
   "version": "0.0.1",
   "description": "A basic Plasmo extension.",
-  "author": "Tirth",
+  "author": "Ninad",
   "packageManager": "npm@8.19.3",
   "scripts": {
-    "dev": "plasmo dev",
+    "dev": "plasmo dev --verbose",
     "build": "plasmo build",
     "package": "plasmo package"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.11",
+    "@heroicons/react": "^2.0.15",
+    "@plasmohq/messaging": "^0.1.1",
     "@testing-library/dom": "^8.20.0",
-    "plasmo": "0.64.5",
+    "moment": "^2.29.4",
+    "plasmo": "0.65.0",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -26,12 +30,12 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
     "prettier": "2.8.3",
-    "tailwindcss": "^3.2.6",
+    "tailwindcss": "^3.2.7",
     "typescript": "4.9.4"
   },
   "manifest": {
     "host_permissions": [
-      "https://*/*"
+      "*://api.firstshipper.com/*"
     ]
   }
 }
