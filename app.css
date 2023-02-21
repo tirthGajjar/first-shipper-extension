@@ -1,3 +1,23 @@
-@tailwind base;
+@import url('https://rsms.me/inter/inter.css');
+
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
+
+* {
+    font-family: 'Inter',
+    sans-serif;
+}
+
+.container {
+    color: blue;
+}
+
+.main-data {
+    width: 20vw;
+    height: 100vh;
+    color: violet;
+    background-color: grey;
+    z-index: 10000;
+    float: right;
+}

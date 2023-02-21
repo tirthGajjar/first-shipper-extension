@@ -1,24 +1,24 @@
-import type { PlasmoMessaging } from "@plasmohq/messaging";
-import moment from 'moment';
+import moment from "moment"
 
-
+import type { PlasmoMessaging } from "@plasmohq/messaging"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
-    const data = JSON.parse(req.body.data);
-    console.log(data);
-    console.log(moment(data['pickup_date'], 'MM/DD/YYYY', true));
+  const data = JSON.parse(req.body.data)
+  const url = `https://api.firstshipper.com/quote`
 
-    const url = `https://api.firstshipper.com/quote`;
-
-    const body = `{
+  const body = `{
         "quoteId": "",
         "requesterId": "",
         "mode": "",
         "liablePartyId": "",
-        "pickupDate": "${moment(data['pickup_date'], 'MM/DD/YYYY', true).format("YYYY-MM-DDTHH:MM:ss.SS") + 'z'}",
+        "pickupDate": "${
+          moment(data["pickup_date"], "MM/DD/YYYY", true).format(
+            "YYYY-MM-DDTHH:MM:ss.SS"
+          ) + "z"
+        }",
         "displayDate": "2023-03-22",
         "deliveryDate": "2023-05-13T22:00:00.00z",
-        "totalItems": ${data['items'].length},
+        "totalItems": ${data["items"].length},
         "totalWeight": null,
         "validUntil": "",
         "editMode": true,
@@ -27,10 +27,10 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
         "commodities": [
             {
                 "density": null,
-                "length": ${parseInt(data['items'][0]['length'])},
-                "width": ${parseInt(data['items'][0]['width'])},
-                "height": ${parseInt(data['items'][0]['height'])},
-                "weight": ${parseInt(data['items'][0]['weight'])},
+                "length": ${parseInt(data["items"][0]["length"])},
+                "width": ${parseInt(data["items"][0]["width"])},
+                "height": ${parseInt(data["items"][0]["height"])},
+                "weight": ${parseInt(data["items"][0]["weight"])},
                 "dimensionDisplay": "",
                 "packageType": 1,
                 "quantity": 1,
@@ -51,7 +51,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
                     "sortAndSegregate": false,
                     "guaranteed": false,
                     "hazardous": false,
-                    "stackable": ${data['items'][0]['is_stackable_checked']}
+                    "stackable": ${data["items"][0]["is_stackable_checked"]}
                 }
             }
         ],
@@ -195,25 +195,36 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
                 "businessId": "asuanku@gmail.com"
             }
         }
-    }`;
+    }`
 
-    console.log(body);
-
-
+  try {
     fetch(url, {
-        'method': 'POST',
-        'headers': {
-            'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJyeWU1em9zZnh1aGMxbWoiLCJleHAiOjE2Nzc1NjE2MDEsImlkIjoiZm92aW5kamNlYjQ3anQ2IiwidHlwZSI6ImF1dGhSZWNvcmQifQ.cCSZK10iDgxUgkrFs6YIojdLkWVXJwd1VqpDraflvgM',
-            'Content-Type': 'application/json'
-        },
-        'body': body
-    }).then((resp) => resp.json())
-        .then((data) => {
-            console.log(data);
-            res.send({
-                body: data
-            })
-        });
+      method: "POST",
+      headers: {
+        Authorization:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJyeWU1em9zZnh1aGMxbWoiLCJleHAiOjE2Nzc1NjE2MDEsImlkIjoiZm92aW5kamNlYjQ3anQ2IiwidHlwZSI6ImF1dGhSZWNvcmQifQ.cCSZK10iDgxUgkrFs6YIojdLkWVXJwd1VqpDraflvgM",
+        "Content-Type": "application/json"
+      },
+      body: body
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        res.send({
+          body: data
+        })
+      })
+      .catch((e) => {
+        console.log("error while fetching data from service worker", e)
+        res.send({
+          error: "error while fetching data from service worker"
+        })
+      })
+  } catch (e) {
+    console.log("error while fetching data from service worker", e)
+    res.send({
+      error: "error while fetching data from service worker"
+    })
+  }
 }
 
-export default handler;
+export default handler
